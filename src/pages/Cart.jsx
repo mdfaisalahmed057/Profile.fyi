@@ -1,9 +1,18 @@
-import React from 'react';
-import { motion } from 'framer-motion';
-import { Plus, Minus, Trash2 } from 'lucide-react';
+import React, { useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Plus, Minus, Trash2, X } from 'lucide-react';
 
 const CartPage = ({ cartItems, updateQuantity, removeFromCart }) => {
+  const [showConfirmation, setShowConfirmation] = useState(false);
   const totalPrice = cartItems.reduce((total, item) => total + item.price * item.quantity, 0);
+
+  const orderCheckout = () => {
+    setShowConfirmation(true);
+  };
+
+  const OrderConfirmation = () => {
+    setShowConfirmation(false);
+  };
 
   return (
     <div className="container mx-auto px-4 py-8">
@@ -56,12 +65,60 @@ const CartPage = ({ cartItems, updateQuantity, removeFromCart }) => {
           </div>
           <div className="mt-8 text-right">
             <p className="text-xl font-semibold">Total: ${totalPrice.toFixed(2)}</p>
-            <button className="mt-4 bg-blue-500 text-white px-6 py-2 rounded hover:bg-blue-600 transition duration-300">
+            <button 
+              onClick={orderCheckout}
+              className="mt-4 bg-blue-500 text-white px-6 py-2 rounded hover:bg-blue-600 transition duration-300"
+            >
               Checkout
             </button>
           </div>
         </>
       )}
+
+      {/* order succusses popup */}
+      <AnimatePresence>
+        {showConfirmation && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"
+          >
+            <motion.div
+              initial={{ scale: 0.9, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.9, opacity: 0 }}
+              className="bg-white lg:p-8 p-4 rounded-lg shadow-lg max-w-md lg:w-full w-[90%]"
+            >
+              <div className="flex justify-between items-center mb-4">
+                <h2 className="text-xl lg:text-2xl font-bold">Order Confirmation</h2>
+                <button onClick={OrderConfirmation} className="text-gray-500 hover:text-gray-700">
+                  <X size={24} />
+                </button>
+              </div>
+              <p className="text-green-600 font-semibold mb-4">Your order has been successfully placed!</p>
+              <div className="space-y-2 mb-4">
+                <h3 className="font-semibold">Order Details:</h3>
+                {cartItems.map((item) => (
+                  <div key={item.id} className="flex justify-between">
+                       <span>{item.title} x {item.quantity}</span>
+                     <span>${(item.price * item.quantity).toFixed(2)}</span>
+                  </div>
+                ))}
+              </div>
+              <div className="text-xl font-bold mt-4 border-t pt-2">
+                Total: ${totalPrice.toFixed(2)}
+              </div>
+              <button
+                onClick={OrderConfirmation}
+                className="mt-6 w-full bg-blue-500 text-white px-6 py-2 rounded hover:bg-blue-600 transition duration-300"
+              >
+                Close
+              </button>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 };
