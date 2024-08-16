@@ -5,7 +5,7 @@ import not_found from '../assets/not_found.gif';
 import CartPage from './Cart';
 import data from '../data/data.json'
 import Footer from './Footer';
-
+import logo from '../assets/cloth_logo.png'
 const products = data.productsData;
 console.log(products);
 
@@ -93,7 +93,7 @@ const ProductPage = () => {
               className="font-bold text-blue-600 cursor-pointer"
               onClick={() => setShowCart(false)}
             >
-              Logo
+             <img src={logo} alt='logo' className='w-16 h-12 '/> 
             </motion.div>
             <div className="flex items-center space-x-4">
               {!showCart && (
@@ -186,7 +186,7 @@ const ProductPage = () => {
 
             {/* filters section */}
             <div className="mb-8 text-xs lg:text-lg bg-white p-4 rounded-lg shadow">
-              <div className="mb-8 text-xs lg:text-lg bg-white p-4 rounded-lg shadow">
+              <div className=" text-xs lg:text-lg bg-white p-4 rounded-lg shadow">
                 <div className="flex flex-wrap items-center justify-center gap-4">
                 <div>
                   
