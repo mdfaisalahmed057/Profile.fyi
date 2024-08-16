@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Plus, Minus, Trash2, X } from 'lucide-react';
+import empty_cart from '../assets/empty_cart.gif'
 
 const CartPage = ({ cartItems, updateQuantity, removeFromCart }) => {
   const [showConfirmation, setShowConfirmation] = useState(false);
@@ -18,7 +19,12 @@ const CartPage = ({ cartItems, updateQuantity, removeFromCart }) => {
     <div className="container mx-auto px-4 py-8">
       <h1 className="text-3xl font-bold mb-8">Your Cart</h1>
       {cartItems.length === 0 ? (
-        <p className="text-xl text-gray-600">Your cart is empty.</p>
+        <div className='flex flex-col
+         items-center'>
+          <img src={empty_cart} alt='empty_Cart'/>
+            <p className="text-xl text-gray-600 font-bold">Your cart is empty.</p>
+
+          </div>
       ) : (
         <>
           <div className="space-y-4">
